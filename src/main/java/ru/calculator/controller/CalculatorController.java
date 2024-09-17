@@ -18,15 +18,27 @@ public class CalculatorController {
 
     private final SalaryService salaryService;
 
-    private SalaryInfoMapper salaryInfoMapper = SalaryInfoMapper.INSTANCE;
+    private final SalaryInfoMapper salaryInfoMapper;
 
     @PostMapping("/calculate")
-    public ResponseEntity<Double> calculate(@RequestBody SalaryInfoDto salaryInfo) {
+    public ResponseEntity<String> calculate(@RequestBody SalaryInfoDto salaryInfo) {
+
+        if (salaryInfo == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No body");
+        }
+
+        if (salaryInfo.getSalary() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You must send salary {salary}");
+        }
+
+        if (salaryInfo.getLengthOfVacation() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You must write length of vacation {lengthOfVacation}");
+        }
 
         try {
             Double vacationSalary = salaryService.calculate(salaryInfoMapper.toEntity(salaryInfo));
 
-            return ResponseEntity.ok(vacationSalary);
+            return ResponseEntity.ok(vacationSalary.toString());
 
         } catch (Exception e) {
             log.error("CalculatorController.calculate error", e);

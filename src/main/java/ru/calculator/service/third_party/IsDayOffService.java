@@ -36,7 +36,7 @@ public class IsDayOffService {
         String formattedDateStart = dateStart.format(formatter);
         String formattedDateEnd = dateEnd.format(formatter);
 
-        String urlN = url + "?" + param1 + "=" + formattedDateStart + "?" + param2 + "=" + formattedDateEnd;
+        String urlN = url + "?" + param1 + "=" + formattedDateStart + "&" + param2 + "=" + formattedDateEnd;
 
         try {
             return webClient.get()

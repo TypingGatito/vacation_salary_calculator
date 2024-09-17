@@ -20,15 +20,16 @@ public class SalaryService {
 
     public Double calculate(SalaryInfo salaryInfo) {
         Double vacationSalary;
+
         if (salaryInfo.getVacationStart() == null) {
-            vacationSalary = calculate(salaryInfo.getSalary(), salaryInfo.getDaysOfVacation());
+            vacationSalary = calculate(salaryInfo.getSalary(), salaryInfo.getLengthOfVacation());
         } else {
             vacationSalary = calculateWithStart(salaryInfo.getSalary(),
                     salaryInfo.getVacationStart(),
                     salaryInfo.dateEnd());
         }
 
-        return vacationSalary;
+        return formatDouble(vacationSalary);
     }
 
     private Double calculate(Double averageSalary, Integer days) {
@@ -50,6 +51,12 @@ public class SalaryService {
         }
 
         return workingDays * averageSalary / daysInMonth;
+    }
+
+    private Double formatDouble(Double value) {
+        long t = Math.round(value * 100);
+
+        return (t / 100d);
     }
 
 }
