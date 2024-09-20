@@ -15,17 +15,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class SalaryServiceTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void calculate() throws Exception {
-        String requestBody = "{\"salary\": 60000, \"daysOfVacation\": 10}";
+        String requestBody = "{\"salary\": 60000, \"lengthOfVacation\": 10}";
 
         this.mockMvc.perform(post("/calculate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("20477.81")));
+                .andExpect(content().string(containsString("20477.82")));
     }
 }
